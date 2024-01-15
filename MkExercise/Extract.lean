@@ -34,7 +34,7 @@ def extractExercise (lines : List String) : String := Id.run do
     if listen then
       let index := findWhere line "/- sorry -/"
       if let some index := index then
-        content := content.pushn ' ' count ++ line.trim.take (index - count) ++ "sorry" ++ "\n"
+        content := content ++ line.take index ++ "sorry\n"
       else
         content := content ++ line ++ "\n"
       continue

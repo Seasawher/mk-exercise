@@ -19,3 +19,8 @@ Don't forget to run `lake update mdgen` after editing the `lakefile`. And simply
 
 * Replace the code enclosed by `-- sorry` with `sorry`, preserving indentation.
 * Replace the code after `/- sorry -/` with sorry.
+
+Check the test code for more information.
+
+* [input file](./Test/Src/Solution.lean)
+* [expected output](./Test/Exp/Solution.lean)

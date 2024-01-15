@@ -9,5 +9,5 @@ lean_lib «MkExercise» where
 
 @[default_target]
 lean_exe «mk_exercise» where
-  root := `Main
+  root := `MkExercise
   supportInterpreter := true

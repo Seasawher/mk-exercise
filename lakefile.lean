@@ -8,5 +8,6 @@ lean_lib «MkExercise» where
   -- add library configuration options here
 
 @[default_target]
-lean_exe «mk-exercise» where
+lean_exe «mk_exercise» where
   root := `Main
+  supportInterpreter := true

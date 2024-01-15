@@ -2,6 +2,8 @@
 
 This tool erases parts of Lean code and replaces them with `sorry`. I developed this to make it easier to manage exercises in textbooks written in Lean.
 
+This is inspired by a script in [glimpses of lean](https://github.com/PatrickMassot/GlimpseOfLean/tree/master).
+
 ## How to use
 
 Add this repository to your `lakefile`:

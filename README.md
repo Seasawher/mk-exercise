@@ -9,7 +9,7 @@ This is inspired by a script in [a glimpse of lean](https://github.com/PatrickMa
 Add this repository to your `lakefile`:
 
 ```lean
-require mk-exercise from git
+require «mk-exercise» from git
   "https://github.com/Seasawher/mk-exercise" @ "main"
 ```
 

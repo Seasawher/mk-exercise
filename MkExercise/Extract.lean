@@ -42,4 +42,8 @@ def extractExercise (lines : List String) : String := Id.run do
       else
         content := content ++ line ++ "\n"
       continue
+
+  if ! listen then
+    panic! "Unexpected file ending. This file contains unclosed `-- sorry`."
+
   return content

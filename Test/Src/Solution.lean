@@ -15,6 +15,19 @@ example : (P → Q) → (Q → R) → (P → R) := by
     exact qr (pq pr)
     -- sorry
 
+/-- focusing dot -/
+example : (P → Q) → (P → R) → (P → Q ∧ R) := by
+  intro pq pr p
+  constructor
+  · -- sorry
+    exact pq p
+    done
+    -- sorry
+  · -- sorry
+    exact pr p
+    done
+    -- sorry
+
 /-- inline `sorry` -/
 example : 1 + n = n + 1 := by
   calc

@@ -21,3 +21,9 @@ example : 1 + n = n + 1 := by
   calc
     1 + n = n + 1 := by sorry
     _ = n + 1 := by sorry
+
+/-- ignore some sentences -/
+example : 1 + n = n + 1 := by
+  calc
+    1 + n = 1 + n := by rfl
+    _ = n + 1 := by sorry

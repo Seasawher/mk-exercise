@@ -16,6 +16,8 @@ def extractExercise (lines : List String) : String := Id.run do
   let mut listen := true
   let mut content := ""
   for line in lines do
+    if line.endsWith "--#" then
+      continue
 
     if let some index := findWhere line "-- sorry" then
       listen := ! listen

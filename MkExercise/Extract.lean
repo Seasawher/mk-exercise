@@ -2,12 +2,17 @@ import Lake
 
 open Lake DSL System
 
-/-- this function trim initial whitespace of given string
-and also count how many whitespaces arise -/
-def cutWhiteSpace (line : String) : Nat × String :=
+/-- String with an indent -/
+structure Code where
+  /-- the size of indent. in other words, the number of leading whitespace. -/
+  indent : Nat
+  /-- the content of the code. -/
+  body : String
+
+def String.toCode (line : String) : Code :=
   let count := line.takeWhile (fun c => c == ' ') |> String.length
   let line := line.trim
-  (count, line)
+  { indent := count, body := line }
 
 /-- determines whether the string contains the given string and returns its index -/
 def findWhere (line : String) (tgt : String) : Option Nat := Id.run do
@@ -23,7 +28,7 @@ def extractExercise (lines : List String) : String := Id.run do
   let mut listen := true
   let mut content := ""
   for line in lines do
-    let ⟨count, trimedLine⟩ := cutWhiteSpace line
+    let ⟨count, trimedLine⟩ := line.toCode
 
     if trimedLine.startsWith "-- sorry" then
       listen := ! listen
@@ -32,8 +37,7 @@ def extractExercise (lines : List String) : String := Id.run do
       continue
 
     if listen then
-      let index := findWhere line "/- sorry -/"
-      if let some index := index then
+      if let some index := findWhere line "/- sorry -/" then
         content := content ++ line.take index ++ "sorry\n"
       else
         content := content ++ line ++ "\n"

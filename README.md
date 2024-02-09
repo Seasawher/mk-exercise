@@ -19,6 +19,7 @@ Don't forget to run `lake update mdgen` after editing the `lakefile`. And simply
 
 * Replace the code enclosed by `-- sorry` with `sorry`, preserving indentation.
 * Replace the code after `/- sorry -/` with sorry.
+* Lines ending with `--#` are ignored.
 
 Check the test code for more information.
 

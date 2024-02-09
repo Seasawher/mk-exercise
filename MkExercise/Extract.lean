@@ -2,13 +2,6 @@ import Lake
 
 open Lake DSL System
 
-/-- this function trim initial whitespace of given string
-and also count how many whitespaces arise -/
-def cutWhiteSpace (line : String) : Nat × String :=
-  let count := line.takeWhile (fun c => c == ' ') |> String.length
-  let line := line.trim
-  (count, line)
-
 /-- determines whether the string contains the given string and returns its index -/
 def findWhere (line : String) (tgt : String) : Option Nat := Id.run do
   for i in [0 : line.length - tgt.length + 1] do
@@ -23,19 +16,23 @@ def extractExercise (lines : List String) : String := Id.run do
   let mut listen := true
   let mut content := ""
   for line in lines do
-    let ⟨count, trimedLine⟩ := cutWhiteSpace line
+    if line.endsWith "--#" then
+      continue
 
-    if trimedLine.startsWith "-- sorry" then
+    if let some index := findWhere line "-- sorry" then
       listen := ! listen
       if ! listen then
-        content := content.pushn ' ' count ++ "sorry\n"
+        content := content ++ line.take index ++ "sorry\n"
       continue
 
     if listen then
-      let index := findWhere line "/- sorry -/"
-      if let some index := index then
+      if let some index := findWhere line "/- sorry -/" then
         content := content ++ line.take index ++ "sorry\n"
       else
         content := content ++ line ++ "\n"
       continue
+
+  if ! listen then
+    panic! "Unexpected file ending. This file contains unclosed `-- sorry`."
+
   return content

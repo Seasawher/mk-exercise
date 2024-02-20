@@ -6,6 +6,8 @@ This is inspired by a script in [a glimpse of lean](https://github.com/PatrickMa
 
 ## How to use
 
+### Basic usage
+
 Add this repository to your `lakefile`:
 
 ```lean
@@ -15,7 +17,11 @@ require «mk-exercise» from git
 
 Don't forget to run `lake update mdgen` after editing the `lakefile`. And simply run `lake exe mk_exercise <input_dir> <output_dir>`.
 
-# Features
+### Setup GitHub Action
+
+GitHub Action allows you to run this every time a particular branch is updated, automatically updating the exercises to the latest state. You may wish to look at [yuma-mizuno/lean-math-workshop](https://github.com/yuma-mizuno/lean-math-workshop), where exercises are managed using this tool.
+
+## Features
 
 * Replace the code enclosed by `-- sorry` with `sorry`, preserving indentation.
 * Replace the code after `/- sorry -/` with sorry.

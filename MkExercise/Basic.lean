@@ -1,5 +1,4 @@
-import Lake
-open Lake DSL System
+open System
 
 partial def getLeanFilePaths (fp : FilePath) (acc : Array FilePath := #[]) :
     IO $ Array FilePath := do

@@ -1,6 +1,4 @@
-import Lake
-
-open Lake DSL System
+open System
 
 /-- new notaion to represent `x := x ++ e`. -/
 syntax ident "++=" term : doElem

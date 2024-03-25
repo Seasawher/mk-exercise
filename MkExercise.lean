@@ -1,7 +1,7 @@
 import MkExercise.Basic
 import MkExercise.Extract
 
-open Lake DSL System
+open System
 
 def main (args : List String) : IO UInt32 := do
   if args.length != 2 then

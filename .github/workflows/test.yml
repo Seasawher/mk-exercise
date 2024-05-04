@@ -25,7 +25,7 @@ jobs:
       - name: build
         run: lake build
 
-      - name: run mdgen
+      - name: run mk_exercise
         run: lake exe mk_exercise Test/Src Test/Out
 
       - name: run test

@@ -38,8 +38,8 @@ example : 1 + n = n + 1 := by
 example : 1 + n = n + 1 := by
   calc
     1 + n = 1 + n := by rfl
-    _ = 1 + n := by rfl --#
-    _ = 1 + n := by rfl --#
-    _ = 1 + n := by rfl --#
-    _ = 1 + n := by rfl --#
+    _ = 1 + n := by rfl --##
+    _ = 1 + n := by rfl --##
+    _ = 1 + n := by rfl --##
+    _ = 1 + n := by rfl --##
     _ = n + 1 := by /- sorry -/ rw [Nat.add_comm]

@@ -19,8 +19,17 @@ and replace it with `sorry` -/
 def extractExercise (lines : List String) : String := Id.run do
   let mut listen := true
   let mut content := ""
+  let mut «--##--» := false
   for line in lines do
+    -- ignore pattern for a line
     if line.endsWith "--##" then
+      continue
+
+    -- ignore pattern for a block
+    if line.trim = "--##--" then
+      «--##--» := ! «--##--»
+      continue
+    if «--##--» then
       continue
 
     if let some index := findWhere line "-- sorry" then

@@ -22,8 +22,14 @@ example : 1 + n = n + 1 := by
     1 + n = n + 1 := by sorry
     _ = n + 1 := by sorry
 
-/-- ignore some sentences -/
+/-- ignore pattern for a line -/
 example : 1 + n = n + 1 := by
   calc
     1 + n = 1 + n := by rfl
     _ = n + 1 := by sorry
+
+/-- ignore pattern for a block -/
+example : 1 + n = n + 1 := by
+  calc
+    1 + n = 1 + n := by rfl
+    _ = n + 1 := by ac_rfl

@@ -34,7 +34,7 @@ example : 1 + n = n + 1 := by
     1 + n = n + 1 := by /- sorry -/ rw [Nat.add_comm]
     _ = n + 1 := by /- sorry -/ rfl
 
-/-- ignore some sentences -/
+/-- ignore pattern for a line -/
 example : 1 + n = n + 1 := by
   calc
     1 + n = 1 + n := by rfl
@@ -43,3 +43,15 @@ example : 1 + n = n + 1 := by
     _ = 1 + n := by rfl --##
     _ = 1 + n := by rfl --##
     _ = n + 1 := by /- sorry -/ rw [Nat.add_comm]
+
+/-- ignore pattern for a block -/
+example : 1 + n = n + 1 := by
+  calc
+    1 + n = 1 + n := by rfl
+    --##--
+    _ = 1 + n := by rfl
+    _ = 1 + n := by rfl
+    _ = 1 + n := by rfl
+    _ = 1 + n := by rfl
+    --##--
+    _ = n + 1 := by ac_rfl

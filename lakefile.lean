@@ -11,15 +11,19 @@ lean_lib «MkExercise» where
 lean_exe «mk_exercise» where
   root := `MkExercise
 
-def runCmd (cmd : String) (args : Array String) : ScriptM Bool := do
+def runCmd (input : String) : IO Unit := do
+  let cmdList := input.splitOn " "
+  let cmd := cmdList.head!
+  let args := cmdList.tail |>.toArray
   let out ← IO.Process.output {
-    cmd := cmd
+    cmd  := cmd
     args := args
   }
-  let hasError := out.exitCode != 0
-  if hasError then
-    IO.eprint out.stderr
-  return hasError
+  if out.exitCode != 0 then
+    IO.eprintln out.stderr
+    throw <| IO.userError s!"Failed to execute: {input}"
+  else if !out.stdout.isEmpty then
+    IO.println out.stdout
 
 @[inline]
 macro "with_time" x:doElem : doElem => `(doElem| do
@@ -31,8 +35,8 @@ macro "with_time" x:doElem : doElem => `(doElem| do
 /-- run test by `lake test` -/
 @[test_driver] script test do
   IO.print "performance test "
-  with_time if ← runCmd "lake" #["exe", "mk_exercise", "Test/Performance", "Test/Out"] then return 1
+  with_time runCmd "lake exe mk_exercise Test/Performance Test/Out"
 
-  if ← runCmd "lake" #["exe", "mk_exercise", "Test/Src", "Test/Out"] then return 1
-  if ← runCmd "lean" #["--run", "Test.lean"] then return 1
+  runCmd "lake exe mk_exercise Test/Src Test/Out"
+  runCmd "lean --run Test.lean"
   return 0

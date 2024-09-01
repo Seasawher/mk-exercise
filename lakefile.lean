@@ -7,23 +7,26 @@ package «mk-exercise» where
 
 lean_lib «MkExercise» where
   -- add library configuration options here
+  roots := #[`MkExercise]
 
 @[default_target]
 lean_exe «mk_exercise» where
+  buildType := .release
   root := `MkExercise
 
+/-- run cmd in shell -/
 def runCmd (input : String) : IO Unit := do
   let cmdList := input.splitOn " "
   let cmd := cmdList.head!
   let args := cmdList.tail |>.toArray
   let out ← IO.Process.output {
-    cmd  := cmd
+    cmd := cmd
     args := args
   }
   if out.exitCode != 0 then
     IO.eprintln out.stderr
     throw <| IO.userError s!"Failed to execute: {input}"
-  else if !out.stdout.isEmpty then
+  if !out.stdout.isEmpty then
     IO.println out.stdout
 
 @[inline]

@@ -38,10 +38,7 @@ macro "with_time" x:doElem : doElem => `(doElem| do
 
 /-- run test by `lake test` -/
 @[test_driver] script test do
-  IO.print "time of running the exe file: "
-  with_time runCmd ".lake/build/bin/mk_exercise.exe Test/Performance Test/Out"
-
-  IO.print "time of running `lake exe`: "
+  IO.print "performance test: "
   with_time runCmd "lake exe mk_exercise Test/Performance Test/Out"
 
   runCmd "lake exe mk_exercise Test/Src Test/Out"

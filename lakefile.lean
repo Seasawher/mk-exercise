@@ -3,7 +3,7 @@ open Lake DSL
 
 package «mk-exercise» where
   -- add package configuration options here
-  preferReleaseBuild := true
+  preferReleaseBuild := false
 
 lean_lib «MkExercise» where
   -- add library configuration options here

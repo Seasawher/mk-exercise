@@ -15,7 +15,7 @@ require «mk-exercise» from git
   "https://github.com/Seasawher/mk-exercise" @ "main"
 ```
 
-Don't forget to run `lake update mdgen` after editing the `lakefile`. And simply run `lake exe mk_exercise <input_dir> <output_dir>`.
+Don't forget to run `lake update mk-exercise` after editing the `lakefile`. And simply run `lake exe mk_exercise <input_dir> <output_dir>`.
 
 ### Setup GitHub Action
 

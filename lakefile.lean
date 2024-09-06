@@ -9,6 +9,9 @@ lean_lib «MkExercise» where
   -- add library configuration options here
   roots := #[`MkExercise]
 
+require Cli from git
+  "https://github.com/leanprover/lean4-cli.git" @ "main"
+
 @[default_target]
 lean_exe «mk_exercise» where
   buildType := .release

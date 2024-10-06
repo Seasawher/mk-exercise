@@ -14,24 +14,31 @@ def findWhere (line : String) (tgt : String) : Option Nat := Id.run do
       return some i
   return none
 
-/-- remove some content from the given content
-and replace it with `sorry` -/
-def extractExercise (lines : List String) : String := Id.run do
-  let mut listen := true
-  let mut content := ""
+/-- handle ignore pattern -/
+def filterIgnored (lines : List String) : List String := Id.run do
+  let mut result := []
   let mut «--##--» := false
   for line in lines do
-    -- ignore pattern for a line
-    if line.endsWith "--##" then
+    if line.trim.endsWith "--##" then
       continue
 
     -- ignore pattern for a block
-    if line.trim = "--##--" then
+    if line.trim.endsWith "--##--" then
       «--##--» := ! «--##--»
       continue
     if «--##--» then
       continue
 
+    result := line :: result
+  return result.reverse
+
+/-- remove some content from the given content
+and replace it with `sorry` -/
+def extractExercise (lines : List String) : String := Id.run do
+  let lines := filterIgnored lines
+  let mut listen := true
+  let mut content := ""
+  for line in lines do
     if let some index := findWhere line "-- sorry" then
       listen := ! listen
       if ! listen then

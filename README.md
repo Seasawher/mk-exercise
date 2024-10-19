@@ -24,6 +24,7 @@ GitHub Action allows you to run this every time a particular branch is updated, 
 ## Features
 
 * Replace the code enclosed by `-- sorry` with `sorry`, preserving indentation.
+* Replace the inline code enclosed by `/-+-/` with `sorry`.
 * Replace the code after `/- sorry -/` with sorry.
 * Lines ending with `--##` are ignored.
 * Blocks enclosed with `--##--` are ignored.

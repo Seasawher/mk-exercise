@@ -21,6 +21,7 @@ example : 1 + n = n + 1 := by
   calc
     1 + n = n + 1 := by sorry
     _ = n + 1 := by sorry
+    _ = sorry := by sorry
 
 /-- ignore pattern for a line -/
 example : 1 + n = n + 1 := by

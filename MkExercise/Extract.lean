@@ -14,6 +14,18 @@ def findWhere (line : String) (tgt : String) : Option Nat := Id.run do
       return some i
   return none
 
+def findWhereAll (line : String) (tgt : String) : List Nat := Id.run do
+  let mut result := []
+  for i in [0 : line.length - tgt.length + 1] do
+    let rest := line.drop i
+    if rest.startsWith tgt then
+      result := i :: result
+  return result.reverse
+
+#guard [9, 20, 32] = findWhereAll
+  (line := "hello := /-+-/ fuga /-+-/ greet /-+-/")
+  (tgt := "/-+-/")
+
 /-- handle ignore pattern -/
 def filterIgnored (lines : List String) : List String := Id.run do
   let mut result := []
@@ -32,6 +44,29 @@ def filterIgnored (lines : List String) : List String := Id.run do
     result := line :: result
   return result.reverse
 
+/-- helper function for `replaceInlineSorry` -/
+def replaceFirstInlineSorry (line : String) : String := Id.run do
+  let occurence := findWhereAll line "/-+-/"
+
+  if occurence.length < 2 then
+    panic! "The number of `/-+-/` is odd."
+
+  let fst := occurence[0]!
+  let snd := occurence[1]!
+  return line.take fst ++ "sorry" ++ line.drop (snd + 5)
+
+#guard replaceFirstInlineSorry "hello := /-+-/ fuga /-+-/ greet /-+-/" = "hello := sorry greet /-+-/"
+
+/-- replace `/-+-/ text /-+-/` to `sorry` -/
+def replaceInlineSorry (line : String) : String := Id.run do
+  let mut current := line
+  while (findWhereAll current "/-+-/").length ≥ 2 do
+    current := replaceFirstInlineSorry current
+  return current
+
+#guard replaceInlineSorry "hello := /-+-/ fuga /-+-/ greet /-+-/" = "hello := sorry greet /-+-/"
+#guard replaceInlineSorry "hello := /-+-/ fuga /-+-/ greet /-+-/ hoge /-+-/" = "hello := sorry greet sorry"
+
 /-- remove some content from the given content
 and replace it with `sorry` -/
 def extractExercise (lines : List String) : String := Id.run do
@@ -47,9 +82,9 @@ def extractExercise (lines : List String) : String := Id.run do
 
     if listen then
       if let some index := findWhere line "/- sorry -/" then
-        content ++= line.take index ++ "sorry\n"
+        content ++= replaceInlineSorry <| line.take index ++ "sorry\n"
       else
-        content ++= line ++ "\n"
+        content ++= replaceInlineSorry line ++ "\n"
       continue
 
   if ! listen then

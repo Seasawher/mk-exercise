@@ -17,8 +17,7 @@ lean_exe «mk_exercise» where
   buildType := .release
   root := `MkExercise
 
-/-- run cmd in shell -/
-def runCmd (input : String) : IO Unit := do
+def runCmdAux (input : String) : IO String := do
   let cmdList := input.splitOn " "
   let cmd := cmdList.head!
   let args := cmdList.tail |>.toArray
@@ -27,10 +26,21 @@ def runCmd (input : String) : IO Unit := do
     args := args
   }
   if out.exitCode != 0 then
-    IO.eprintln out.stderr
+    IO.println out.stderr
     throw <| IO.userError s!"Failed to execute: {input}"
-  if !out.stdout.isEmpty then
-    IO.println out.stdout
+
+  return out.stdout.trimRight
+
+def runCmd (input : String) : IO Unit := do
+  let out ← runCmdAux input
+  if ! out == "" then
+    IO.println out
+
+def checkVersion : IO Unit := do
+  let expectedVer := s!"v{Lean.versionString}"
+  let actualVer ← runCmdAux "lake exe mk_exercise --version"
+  if actualVer != expectedVer then
+    throw <| IO.userError s!"Version mismatch: expected {expectedVer}, got {actualVer}"
 
 @[inline]
 macro "with_time" x:doElem : doElem => `(doElem| do
@@ -41,6 +51,7 @@ macro "with_time" x:doElem : doElem => `(doElem| do
 
 /-- run test by `lake test` -/
 @[test_driver] script test do
+  checkVersion
   IO.print "performance test: "
   with_time runCmd "lake exe mk_exercise Test/Performance Test/Out"
 

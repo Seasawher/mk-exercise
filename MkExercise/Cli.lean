@@ -20,10 +20,8 @@ def runMkExerciseCmd (p : Parsed) : IO UInt32 := do
     createFile (genPath outputFilePath) (extractExercise content.toList)
   return 0
 
-def versionString := s!"v{Lean.versionString}"
-
 def mkExerciseCmd : Cmd := `[Cli|
-  mk_exercise VIA runMkExerciseCmd; [versionString]
+  mk_exercise VIA runMkExerciseCmd; ["v4.25.0"]
   "This tool erases parts of Lean code and replaces them with sorry."
 
   ARGS:

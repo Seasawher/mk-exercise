@@ -21,7 +21,7 @@ def runMkExerciseCmd (p : Parsed) : IO UInt32 := do
   return 0
 
 def mkExerciseCmd : Cmd := `[Cli|
-  mk_exercise VIA runMkExerciseCmd; ["v4.25.0"]
+  mk_exercise VIA runMkExerciseCmd; ["v4.26.0-rc2"]
   "This tool erases parts of Lean code and replaces them with sorry."
 
   ARGS:
